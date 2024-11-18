@@ -49,17 +49,19 @@ def coherence_evaluator(generated_text: str):
     '''
 
     try:
+        messages = [{"role": "user", "content": evaluation_text}]
+
+        print(f"Messages: {messages}")
+
         chat_completion = remote_client.chat.completions.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": evaluation_text,
-                }
-            ],
+            messages=messages,
             model=COHERENCE_EVAL_MODEL,
             temperature=0,
         )
         score = int(chat_completion.choices[0].message.content)
+
+        print(f"Score: {score}")
+
         return score
     except Exception as e:
         print(e)
