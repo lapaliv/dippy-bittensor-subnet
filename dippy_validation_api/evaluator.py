@@ -126,6 +126,7 @@ class Evaluator:
             env["VLLM_FLASHINFER_FORCE_TENSOR_CORES"] = "1"
 
         self.logger.debug("env", env=env)
+        print(f"env = {env}")
 
         container = self.client.containers.run(
             self.image_name,
