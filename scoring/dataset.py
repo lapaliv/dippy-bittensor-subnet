@@ -76,7 +76,8 @@ def get_latest_from_file(filter: str = "both", filename: str = "/tmp/dataset.jso
 class StreamedSyntheticDataset(Dataset):
     def __init__(self, max_input_len: int):
         try:
-            data = get_latest_from_set()
+#             data = get_latest_from_set()
+            data = load_dataset("lapaliv/dippy-roleplay-2000", token=os.environ.get("HF_TOKEN")).get("train", [])
         except Exception as e:
             print(f"error loading dataset {e}")
             raise e
