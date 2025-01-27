@@ -14,7 +14,7 @@ from common.scores import Scores
 
 DEFAULT_IMAGE_NAME = "grader:latest"
 
-DEFAULT_HOME_DIR = os.environ.get("EVALUATOR_HOME_DIR", "/home/new_prod_user/dippy-bittensor-subnet")
+DEFAULT_HOME_DIR = os.environ.get("EVALUATOR_HOME_DIR", "/home/user/dippy-bittensor-subnet")
 DEFAULT_MODEL_CACHE_DIR = os.environ.get("EVALUATOR_MODEL_CACHE_DIR", "/workdir/model_cache_dir")
 
 class EvaluationScore(BaseModel):
