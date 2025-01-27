@@ -33,15 +33,18 @@ DATASET_API_JWT = os.environ.get("DATASET_API_JWT", "dippy")
 DEFAULT_EPOCH_DATE = "20241201"
 
 def get_latest_from_set():
-    current_date = datetime.now(timezone.utc).strftime("%Y%m%d")
-    url = f"{DATASET_URL}?start_date={DEFAULT_EPOCH_DATE}&end_date={current_date}"
-
-    response = requests.get(
-        url, headers={"Authorization": f"Bearer {DATASET_API_JWT}"}
-    )
-    response.raise_for_status()  # Raise an error for bad responses
-    data = response.json().get("all_convos", [])
-    return data
+    print("Loading lapaliv/dippy-roleplay-2000")
+    return load_dataset("lapaliv/dippy-roleplay-2000", split="train")
+#
+#     current_date = datetime.now(timezone.utc).strftime("%Y%m%d")
+#     url = f"{DATASET_URL}?start_date={DEFAULT_EPOCH_DATE}&end_date={current_date}"
+#
+#     response = requests.get(
+#         url, headers={"Authorization": f"Bearer {DATASET_API_JWT}"}
+#     )
+#     response.raise_for_status()  # Raise an error for bad responses
+#     data = response.json().get("all_convos", [])
+#     return data
 
 
 def get_latest_from_file(filter: str = "both", filename: str = "/tmp/dataset.json"):
@@ -469,13 +472,14 @@ class JSONLDataset(Dataset):
 
 class PersonaHubDataset(Dataset):
     def __init__(self, max_input_len):
-        all_data = load_dataset("DippyAI/personahub_augmented_v0", cache_dir=DATASET_CACHE_DIR)
-        partitions = []
-        for partition in all_data:
-            partition_data = all_data.get(partition)
-            for chunk in partition_data:
-                prompt = chunk.get("data")
-                partitions.append(prompt)
+        partitions = load_dataset("lapaliv/dippy-roleplay-2000", split="train")
+#         all_data = load_dataset("DippyAI/personahub_augmented_v0", cache_dir=DATASET_CACHE_DIR)
+#         partitions = []
+#         for partition in all_data:
+#             partition_data = all_data.get(partition)
+#             for chunk in partition_data:
+#                 prompt = chunk.get("data")
+#                 partitions.append(prompt)
         self.dataset = self.process_data(partitions, max_input_len)
         self._chat_template = None
         self._tokenizer = None
