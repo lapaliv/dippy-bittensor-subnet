@@ -16,7 +16,7 @@ from scoring.common import (
     EvaluateModelRequest,
 )
 
-BATCH_SIZE = 2
+BATCH_SIZE = 1
 max_entropy = math.log(VOCAB_TRUNCATION)
 
 
