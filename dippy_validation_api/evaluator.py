@@ -90,7 +90,6 @@ class Evaluator:
                 "mode": "rw",
             }
 
-        print(f"gpu_ids=", gpu_ids)
         self.device_requests = [docker.types.DeviceRequest(device_ids=[gpu_ids], capabilities=[["gpu"]])]
 
         self.env = {
@@ -247,8 +246,8 @@ def entry():
     print(f"running {image_name} with {req}")
 
     try:
-        # evaler = Evaluator(image_name=image_name, trace=True, gpu_ids="0")
-        evaler = Evaluator(image_name=image_name, trace=True, gpu_ids="1")
+        evaler = Evaluator(image_name=image_name, trace=True, gpu_ids="0")
+#         evaler = Evaluator(image_name=image_name, trace=True, gpu_ids="1")
 
         infrence_result = evaler.inference_score(req)
         if isinstance(infrence_result, RunError):
