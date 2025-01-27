@@ -34,7 +34,7 @@ DEFAULT_EPOCH_DATE = "20241201"
 
 def get_latest_from_set():
     print("Loading lapaliv/dippy-roleplay-2000")
-    return load_dataset("lapaliv/dippy-roleplay-2000", split="train")
+    return load_dataset("lapaliv/dippy-roleplay-2000", split="train", token=hf_token)
 #
 #     current_date = datetime.now(timezone.utc).strftime("%Y%m%d")
 #     url = f"{DATASET_URL}?start_date={DEFAULT_EPOCH_DATE}&end_date={current_date}"
@@ -286,7 +286,7 @@ from datasets import load_dataset
 
 
 class SyntheticCoherenceDataset(Dataset):
-    def __init__(self, dataset_name="DippyAI/dippy_synthetic_dataset"):
+    def __init__(self, dataset_name="lapaliv/dippy-roleplay-2000"):
         datass = load_dataset(dataset_name, token=os.environ.get("HF_TOKEN")).get("train", [])
 
         self.dataset = self.process_data(datass)
@@ -472,7 +472,7 @@ class JSONLDataset(Dataset):
 
 class PersonaHubDataset(Dataset):
     def __init__(self, max_input_len):
-        partitions = load_dataset("lapaliv/dippy-roleplay-2000", split="train")
+        partitions = load_dataset("lapaliv/dippy-roleplay-2000", split="train", token=hf_token)
 #         all_data = load_dataset("DippyAI/personahub_augmented_v0", cache_dir=DATASET_CACHE_DIR)
 #         partitions = []
 #         for partition in all_data:
