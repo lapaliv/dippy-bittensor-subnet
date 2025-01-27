@@ -90,6 +90,7 @@ class Evaluator:
                 "mode": "rw",
             }
 
+        print(f"gpu_ids=", gpu_ids)
         self.device_requests = [docker.types.DeviceRequest(device_ids=[gpu_ids], capabilities=[["gpu"]])]
 
         self.env = {
