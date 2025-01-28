@@ -32,9 +32,46 @@ DATASET_API_JWT = os.environ.get("DATASET_API_JWT", "dippy")
 
 DEFAULT_EPOCH_DATE = "20241201"
 
+def get_creativity_dataset_iterator():
+    offset = 0
+    total = 0
+
+    while True:
+        if offset > total:
+            break
+
+        url = os.environ.get("SN11_DATASET_URL")
+        if url.find("?") == -1:
+            url += "?"
+        else:
+            url += "&"
+        url += f"offset={offset}&limit=2000"
+        print("Load dataset", url)
+        response = requests.get(url)
+        response.raise_for_status()
+
+        response_data = response.json()
+        ds = response_data["data"]
+        total = response_data["total"]
+
+        if not ds:
+            break
+
+        for item in ds:
+            yield item
+
+        offset += len(ds)
+
 def get_latest_from_set():
-    print("Loading lapaliv/dippy-roleplay-2000")
-    return load_dataset("lapaliv/dippy-roleplay-2000", split="train", token=hf_token)
+    result = []
+    for item in get_creativity_dataset_iterator():
+        result.append(item)
+        if len(result) >= 2000:
+            break
+
+    return result
+#     print("Loading lapaliv/dippy-roleplay-2000")
+#     return load_dataset("lapaliv/dippy-roleplay-2000", split="train", token=hf_token)
 #
 #     current_date = datetime.now(timezone.utc).strftime("%Y%m%d")
 #     url = f"{DATASET_URL}?start_date={DEFAULT_EPOCH_DATE}&end_date={current_date}"
