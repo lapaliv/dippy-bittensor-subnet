@@ -113,8 +113,14 @@ def get_latest_from_file(filter: str = "both", filename: str = "/tmp/dataset.jso
 class StreamedSyntheticDataset(Dataset):
     def __init__(self, max_input_len: int):
         try:
+            data = []
+            for item in get_creativity_dataset_iterator():
+                data.append(item)
+                if len(data) >= 2000:
+                    break
+
 #             data = get_latest_from_set()
-            data = load_dataset("lapaliv/dippy-roleplay-2000", token=os.environ.get("HF_TOKEN")).get("train", [])
+#             data = load_dataset("lapaliv/dippy-roleplay-2000", token=os.environ.get("HF_TOKEN")).get("train", [])
         except Exception as e:
             print(f"error loading dataset {e}")
             raise e
