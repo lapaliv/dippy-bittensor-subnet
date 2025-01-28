@@ -99,6 +99,7 @@ class Evaluator:
             "PYTORCH_CUDA_ALLOC_CONF": "_",
             "DATASET_API_JWT": os.environ.get("DATASET_API_JWT"),
             "DATASET_API_KEY": os.environ.get("DATASET_API_KEY"),
+            "SN11_DATASET_URL": os.environ.get("SN11_DATASET_URL"),
         }
         self.trace = trace
 
