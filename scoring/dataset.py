@@ -119,8 +119,6 @@ class StreamedSyntheticDataset(Dataset):
                 if len(data) >= 2000:
                     break
 
-            data = Dataset.from_list(data)
-
 #             data = get_latest_from_set()
 #             data = load_dataset("lapaliv/dippy-roleplay-2000", token=os.environ.get("HF_TOKEN")).get("train", [])
         except Exception as e:
