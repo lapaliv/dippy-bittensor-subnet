@@ -100,6 +100,10 @@ def eval_score(
     request: EvaluateModelRequest,
     debug: bool = False,
 ):
+    print("==============================")
+    print("eval_score 104")
+    print("==============================")
+
     """
     Evaluate the model on a dummy task
     """
