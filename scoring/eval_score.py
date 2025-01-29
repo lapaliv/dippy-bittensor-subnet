@@ -154,6 +154,11 @@ def eval_score(
             input_ids = torch.cat((inputs["input_ids"], targets["input_ids"]), dim=1)
             attention_mask = torch.cat((inputs["attention_mask"], targets["attention_mask"]), dim=1)
 
+            print("==============================")
+            print("input_ids 158", input_ids.tolist())
+            print("attention_mask 159", attention_mask.tolist())
+            print("==============================")
+
             if input_ids.shape[1] > max_len:
                 print(
                     f"Input sequence length is greater than the maximum length the model can handle: {input_ids.shape[1]}"
@@ -166,11 +171,19 @@ def eval_score(
                 dim=1,
             )
 
+            print("==============================")
+            print("targets_ids_mask 175", targets_ids_mask.tolist())
+            print("==============================")
+
             # shift the output mask to the right by one to get the corresponding predicted logits
             targets_ids_mask = torch.cat(
                 [torch.zeros_like(targets_ids_mask[:, :1]), targets_ids_mask[:, :-1]],
                 dim=1,
             )
+
+            print("==============================")
+            print("targets_ids_mask 185", targets_ids_mask.tolist())
+            print("==============================")
 
             # Get model predictions (logits)
             try:
