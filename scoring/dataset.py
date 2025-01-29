@@ -7,6 +7,7 @@ from transformers import AutoTokenizer
 from torch.utils.data import Dataset
 import tiktoken
 from datetime import datetime, timezone
+from scoring.common import EVALUATION_DATASET_SAMPLE_SIZE
 
 DATASET_CACHE_DIR = "evalsets"
 hf_token = os.environ.get("HF_TOKEN")
@@ -45,7 +46,7 @@ def get_creativity_dataset_iterator():
             url += "?"
         else:
             url += "&"
-        url += f"offset={offset}&limit=2000"
+        url += f"offset={offset}&limit={EVALUATION_DATASET_SAMPLE_SIZE}"
         print("Load dataset", url)
         response = requests.get(url)
         response.raise_for_status()
@@ -66,7 +67,7 @@ def get_latest_from_set():
     result = []
     for item in get_creativity_dataset_iterator():
         result.append(item)
-        if len(result) >= 2000:
+        if len(result) >= EVALUATION_DATASET_SAMPLE_SIZE:
             break
 
     return result
@@ -116,7 +117,7 @@ class StreamedSyntheticDataset(Dataset):
             data = []
             for item in get_creativity_dataset_iterator():
                 data.append(item)
-                if len(data) >= 2000:
+                if len(data) >= EVALUATION_DATASET_SAMPLE_SIZE:
                     break
 
 #             data = get_latest_from_set()
