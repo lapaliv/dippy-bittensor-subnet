@@ -155,8 +155,9 @@ def eval_score(
             attention_mask = torch.cat((inputs["attention_mask"], targets["attention_mask"]), dim=1)
 
             print("==============================")
-            print("input_ids 158", input_ids.tolist())
-            print("attention_mask 159", attention_mask.tolist())
+            print("input_ids 158")
+            print("input_ids 158", input_ids)
+            print("attention_mask 159", attention_mask)
             print("==============================")
 
             if input_ids.shape[1] > max_len:
@@ -172,7 +173,7 @@ def eval_score(
             )
 
             print("==============================")
-            print("targets_ids_mask 175", targets_ids_mask.tolist())
+            print("targets_ids_mask 175", targets_ids_mask)
             print("==============================")
 
             # shift the output mask to the right by one to get the corresponding predicted logits
@@ -182,7 +183,7 @@ def eval_score(
             )
 
             print("==============================")
-            print("targets_ids_mask 185", targets_ids_mask.tolist())
+            print("targets_ids_mask 185", targets_ids_mask)
             print("==============================")
 
             # Get model predictions (logits)
