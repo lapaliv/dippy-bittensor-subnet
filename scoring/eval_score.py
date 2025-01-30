@@ -100,9 +100,9 @@ def eval_score(
     request: EvaluateModelRequest,
     debug: bool = False,
 ):
-    print("==============================")
-    print("eval_score 104")
-    print("==============================")
+#     print("==============================")
+#     print("eval_score 104")
+#     print("==============================")
 
     """
     Evaluate the model on a dummy task
@@ -158,11 +158,11 @@ def eval_score(
             input_ids = torch.cat((inputs["input_ids"], targets["input_ids"]), dim=1)
             attention_mask = torch.cat((inputs["attention_mask"], targets["attention_mask"]), dim=1)
 
-            print("==============================")
-            print("input_ids 158")
-            print("input_ids 158", input_ids)
-            print("attention_mask 159", attention_mask)
-            print("==============================")
+#             print("==============================")
+#             print("input_ids 158")
+#             print("input_ids 158", input_ids)
+#             print("attention_mask 159", attention_mask)
+#             print("==============================")
 
             if input_ids.shape[1] > max_len:
                 print(
@@ -176,9 +176,9 @@ def eval_score(
                 dim=1,
             )
 
-            print("==============================")
-            print("targets_ids_mask 175", targets_ids_mask)
-            print("==============================")
+#             print("==============================")
+#             print("targets_ids_mask 175", targets_ids_mask)
+#             print("==============================")
 
             # shift the output mask to the right by one to get the corresponding predicted logits
             targets_ids_mask = torch.cat(
@@ -186,9 +186,9 @@ def eval_score(
                 dim=1,
             )
 
-            print("==============================")
-            print("targets_ids_mask 185", targets_ids_mask)
-            print("==============================")
+#             print("==============================")
+#             print("targets_ids_mask 185", targets_ids_mask)
+#             print("==============================")
 
             # Get model predictions (logits)
             try:
