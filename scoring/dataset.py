@@ -36,6 +36,7 @@ DEFAULT_EPOCH_DATE = "20241201"
 def get_creativity_dataset_iterator():
     offset = 0
     total = 0
+    result = []
 
     while True:
         if offset > total:
@@ -59,18 +60,12 @@ def get_creativity_dataset_iterator():
             break
 
         for item in ds:
-            yield item
-
-        offset += len(ds)
-
-def get_latest_from_set():
-    result = []
-    for item in get_creativity_dataset_iterator():
-        result.append(item)
-        if len(result) >= EVALUATION_DATASET_SAMPLE_SIZE:
-            break
+            result.append(item)
 
     return result
+
+def get_latest_from_set():
+    return get_creativity_dataset_iterator()
 #     print("Loading lapaliv/dippy-roleplay-2000")
 #     return load_dataset("lapaliv/dippy-roleplay-2000", split="train", token=hf_token)
 #
@@ -114,11 +109,7 @@ def get_latest_from_file(filter: str = "both", filename: str = "/tmp/dataset.jso
 class StreamedSyntheticDataset(Dataset):
     def __init__(self, max_input_len: int):
         try:
-            data = []
-            for item in get_creativity_dataset_iterator():
-                data.append(item)
-                if len(data) >= EVALUATION_DATASET_SAMPLE_SIZE:
-                    break
+            data = get_creativity_dataset_iterator()
 
 #             data = get_latest_from_set()
 #             data = load_dataset("lapaliv/dippy-roleplay-2000", token=os.environ.get("HF_TOKEN")).get("train", [])
@@ -332,7 +323,8 @@ from datasets import load_dataset
 
 class SyntheticCoherenceDataset(Dataset):
     def __init__(self, dataset_name="lapaliv/dippy-roleplay-2000"):
-        datass = load_dataset(dataset_name, token=os.environ.get("HF_TOKEN")).get("train", [])
+#         datass = load_dataset(dataset_name, token=os.environ.get("HF_TOKEN")).get("train", [])
+        datass = get_creativity_dataset_iterator()
 
         self.dataset = self.process_data(datass)
         self.max_size = len(datass)
@@ -517,7 +509,8 @@ class JSONLDataset(Dataset):
 
 class PersonaHubDataset(Dataset):
     def __init__(self, max_input_len):
-        partitions = load_dataset("lapaliv/dippy-roleplay-2000", split="train", token=hf_token)
+#         partitions = load_dataset("lapaliv/dippy-roleplay-2000", split="train", token=hf_token)
+        partitions = get_creativity_dataset_iterator()
 #         all_data = load_dataset("DippyAI/personahub_augmented_v0", cache_dir=DATASET_CACHE_DIR)
 #         partitions = []
 #         for partition in all_data:
