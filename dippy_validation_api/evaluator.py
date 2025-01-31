@@ -196,6 +196,11 @@ class Evaluator:
             return RunError(error=str(e))
 
     def inference_score(self, request: EvaluateModelRequest) -> Union[InferenceScore, RunError]:
+        return InferenceScore(
+            vibe_score=0,
+            coherence_score=0,
+        )
+
         try:
             inference_result = self.run_docker_container(
                 job_type="inference",
