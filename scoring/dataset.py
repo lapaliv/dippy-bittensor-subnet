@@ -34,33 +34,28 @@ DATASET_API_JWT = os.environ.get("DATASET_API_JWT", "dippy")
 DEFAULT_EPOCH_DATE = "20241201"
 
 def get_creativity_dataset_iterator():
-    offset = 0
     total = 0
     result = []
 
-    while True:
-        if offset > total:
-            break
+    url = os.environ.get("SN11_DATASET_URL")
+    if url.find("?") == -1:
+        url += "?"
+    else:
+        url += "&"
+    url += f"offset=0&limit={EVALUATION_DATASET_SAMPLE_SIZE}"
+    print("Load dataset", url)
+    response = requests.get(url)
+    response.raise_for_status()
 
-        url = os.environ.get("SN11_DATASET_URL")
-        if url.find("?") == -1:
-            url += "?"
-        else:
-            url += "&"
-        url += f"offset={offset}&limit={EVALUATION_DATASET_SAMPLE_SIZE}"
-        print("Load dataset", url)
-        response = requests.get(url)
-        response.raise_for_status()
+    response_data = response.json()
+    ds = response_data["data"]
+    total = response_data["total"]
 
-        response_data = response.json()
-        ds = response_data["data"]
-        total = response_data["total"]
+    if not ds:
+        break
 
-        if not ds:
-            break
-
-        for item in ds:
-            result.append(item)
+    for item in ds:
+        result.append(item)
 
     return result
 
